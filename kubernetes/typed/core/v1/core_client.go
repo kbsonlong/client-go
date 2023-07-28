@@ -47,22 +47,23 @@ type CoreV1Interface interface {
 }
 
 // CoreV1Client is used to interact with features provided by the  group.
+// CoreV1Client结构体
 type CoreV1Client struct {
 	restClient rest.Interface
 }
-
+// 核心资源的增删改查，比如configmap、namespace、Endpoint、Service、Pv、PVC等
 func (c *CoreV1Client) ComponentStatuses() ComponentStatusInterface {
 	return newComponentStatuses(c)
 }
-
+// ConfigMaps
 func (c *CoreV1Client) ConfigMaps(namespace string) ConfigMapInterface {
 	return newConfigMaps(c, namespace)
 }
-
+// Endpoints
 func (c *CoreV1Client) Endpoints(namespace string) EndpointsInterface {
 	return newEndpoints(c, namespace)
 }
-
+// Namespaces
 func (c *CoreV1Client) Events(namespace string) EventInterface {
 	return newEvents(c, namespace)
 }
@@ -118,6 +119,7 @@ func (c *CoreV1Client) ServiceAccounts(namespace string) ServiceAccountInterface
 // NewForConfig creates a new CoreV1Client for the given config.
 // NewForConfig is equivalent to NewForConfigAndClient(c, httpClient),
 // where httpClient was generated with rest.HTTPClientFor(c).
+// 通过传入的 rest.Config 初始化 CoreV1Client 对象。
 func NewForConfig(c *rest.Config) (*CoreV1Client, error) {
 	config := *c
 	if err := setConfigDefaults(&config); err != nil {

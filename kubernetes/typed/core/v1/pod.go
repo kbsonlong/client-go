@@ -85,6 +85,7 @@ func (c *pods) Get(ctx context.Context, name string, options metav1.GetOptions) 
 }
 
 // List takes label and field selectors, and returns the list of Pods that match those selectors.
+// pods.List()方法通过RESTClient的HTTP调用来实现对kubernetes的pod资源的获取。
 func (c *pods) List(ctx context.Context, opts metav1.ListOptions) (result *v1.PodList, err error) {
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {

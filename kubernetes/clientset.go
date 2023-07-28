@@ -77,7 +77,7 @@ import (
 	rest "k8s.io/client-go/rest"
 	flowcontrol "k8s.io/client-go/util/flowcontrol"
 )
-
+// clientset的方法集接口
 type Interface interface {
 	Discovery() discovery.DiscoveryInterface
 	AdmissionregistrationV1() admissionregistrationv1.AdmissionregistrationV1Interface
@@ -134,6 +134,7 @@ type Interface interface {
 }
 
 // Clientset contains the clients for groups.
+// clientset的结构体
 type Clientset struct {
 	*discovery.DiscoveryClient
 	admissionregistrationV1       *admissionregistrationv1.AdmissionregistrationV1Client
@@ -457,6 +458,7 @@ func (c *Clientset) Discovery() discovery.DiscoveryInterface {
 // NewForConfig will generate a rate-limiter in configShallowCopy.
 // NewForConfig is equivalent to NewForConfigAndClient(c, httpClient),
 // where httpClient was generated with rest.HTTPClientFor(c).
+// 初始化clientset中的每个client
 func NewForConfig(c *rest.Config) (*Clientset, error) {
 	configShallowCopy := *c
 
@@ -477,6 +479,7 @@ func NewForConfig(c *rest.Config) (*Clientset, error) {
 // Note the http client provided takes precedence over the configured transport values.
 // If config's RateLimiter is not set and QPS and Burst are acceptable,
 // NewForConfigAndClient will generate a rate-limiter in configShallowCopy.
+// Clientset限速配置
 func NewForConfigAndClient(c *rest.Config, httpClient *http.Client) (*Clientset, error) {
 	configShallowCopy := *c
 	if configShallowCopy.RateLimiter == nil && configShallowCopy.QPS > 0 {
